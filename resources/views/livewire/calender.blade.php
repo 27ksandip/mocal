@@ -1,6 +1,11 @@
 <div class="mycalender_wrap">
     <div class="my_calender">
         <div class="custom_container">
+            @if (session()->has('success'))
+            <p class="text-success text-center">
+                {{ session('success') }}
+            </p>
+            @endif
             <div class="scroll_area">
                 <div class="row1">
                     <div class="calender_topsec">
@@ -53,19 +58,20 @@
                             </div>
                             <div class="make_booking">
                                 <div class="column th"><span>10</span> Mon</div>
-    
+                                @foreach($timeSlots as $item)
                                 <div class="column">
                                     <div class="td1">
-                                        <span class="b_time pink">09:00 - 09:15</span>
-                                        <span class="b_time pink">09:15 - 09:30</span>
+                                        <span class="b_time pink">{{$item[0] }}</span>
+                                        <span class="b_time pink">{{$item[1] }}</span>
                                         @include('livewire.create_event_model')
                                     </div>
                                     <div class="td2">
-                                        <span class="b_time pink">09:30 - 09:45</span>
-                                        <span class="b_time pink">09:45 - 10:00</span>
+                                        <span class="b_time pink">{{$item[2] }}</span>
+                                        <span class="b_time pink">{{$item[3] }}</span>
+                                        @include('livewire.create_event_model')
                                     </div>
                                 </div>
-
+                                @endforeach
                             </div>
                             <div class="make_booking">
                                 <div class="column th"><span>11</span> Tue</div>
@@ -547,7 +553,7 @@
         });
 
         $(".make_booking .b_time").click(function() {
-            $(this).closest(".mcalender_popup").addClass("shop_popup");
+            $(this).closest('.make_booking').find(".mcalender_popup").addClass("shop_popup");
         })
     });
 </script>

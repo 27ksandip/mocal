@@ -5,7 +5,7 @@ namespace App\Livewire;
 use App\Models\EventCalenderSetting;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
-use Livewire\Attributes\On; 
+use Livewire\Attributes\On;
 
 class Calender extends Component
 {
@@ -16,7 +16,8 @@ class Calender extends Component
     public $start_time = '';
     public $end_time = '';
 
-    protected function rules() {
+    protected function rules()
+    {
         return [
             'meeting_address' => 'required|min:6',
             'location' => 'required',
@@ -28,24 +29,20 @@ class Calender extends Component
     public function mount()
     {
         $this->timeSlots = [
-            '09:00 - 09:15',
-            '09:15 - 09:30',
-            '09:30 - 09:45',
-            '09:45 - 10:00',
-            '10:00 - 10:15',
-            '10:15 - 10:30',
-            '10:30 - 10:45'
+            ['09:00 - 09:15', '09:15 - 09:30', '09:30 - 09:45', '09:45 - 10:00'],
+            ['10:00 - 10:15', '10:15 - 10:30', '10:30 - 10:45', '10:45 - 11:00'],
+            ['11:00 - 11:15', '11:15 - 11:30', '11:30 - 11:45', '11:45 - 12:00'],
         ];
     }
-
     public function updated($fields)
     {
         $this->validateOnly($fields);
     }
 
-    public function getTime() {
-        $this->start_time;
-        Log::info("time",['t' => $this->start_time]);
+    public function getTime($time)
+    {
+        $this->start_time = $time;
+        Log::info("time", ['t' => $this->start_time]);
     }
 
     public function createEvent()
@@ -63,11 +60,10 @@ class Calender extends Component
         //reset field
         $this->reset(['meeting_address', 'location']);
 
-        session()->flash('success','Event created successfully.');
+        session()->flash('success', 'Event created successfully.');
 
         // close event create modal
-        $this->dispatch('close-modal'); 
-
+        $this->dispatch('close-modal');
     }
 
     // generate uuid for id column
